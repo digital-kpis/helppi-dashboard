@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
+<html lang="pt-BR"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard Reforço Helppi</title>
@@ -562,7 +560,7 @@ td { padding:9px 14px;vertical-align:middle; }
 <!-- TABS SEMPRE VISÍVEIS (não dependem de dados) -->
 <div class="tabs" id="tabsAlways" style="display:flex">
   <button class="tab-btn" onclick="switchTab('manual')" id="tbManual" style="color:#10b981">✏️ Lançamento Manual</button>
-  <button class="tab-btn" onclick="switchTab('github')" id="tbGithub" style="color:#f59e0b">🐙 GitHub / Link</button>
+  <button class="tab-btn active" onclick="switchTab('github')" id="tbGithub" style="color:#f59e0b">🐙 GitHub / Link</button>
   <div style="flex:1"></div>
   <span id="tabsNoDataHint" style="font-size:12px;color:var(--text3);align-self:center;padding-right:12px">
     ← Carregue um arquivo ou faça um lançamento manual para ver os dados
@@ -571,17 +569,17 @@ td { padding:9px 14px;vertical-align:middle; }
 
 <!-- TABS COM DADOS (só aparecem após primeiro carregamento) -->
 <div class="tabs" id="tabsBar" style="display:none;border-top:1px solid var(--border)">
-  <button class="tab-btn active" onclick="switchTab('visao-geral')">📊 Visão Geral</button>
-  <button class="tab-btn"        onclick="switchTab('por-dia')">📅 Por Dia</button>
-  <button class="tab-btn"        onclick="switchTab('por-usuario')">👤 Por Colaborador</button>
-  <button class="tab-btn"        onclick="switchTab('carregamentos')">📂 Carregamentos</button>
-  <button class="tab-btn"        onclick="switchTab('tabela')">📋 Tabela</button>
+  <button class="tab-btn" onclick="switchTab('visao-geral')">📊 Visão Geral</button>
+  <button class="tab-btn" onclick="switchTab('por-dia')">📅 Por Dia</button>
+  <button class="tab-btn" onclick="switchTab('por-usuario')">👤 Por Colaborador</button>
+  <button class="tab-btn" onclick="switchTab('carregamentos')">📂 Carregamentos</button>
+  <button class="tab-btn" onclick="switchTab('tabela')">📋 Tabela</button>
 </div>
 
-<div class="main" id="mainContent" style="display:none">
+<div class="main" id="mainContent" style="display: block;">
 
   <!-- VISÃO GERAL -->
-  <div class="panel active" id="panel-visao-geral">
+  <div class="panel" id="panel-visao-geral">
     <div class="stats-row" id="statsRow"></div>
     <div class="legend">
       <div class="leg-item"><div class="leg-dot" style="background:var(--success)"></div> Nome preenchido na aba do dia</div>
@@ -704,12 +702,13 @@ td { padding:9px 14px;vertical-align:middle; }
           </div>
         </div>
         <div class="man-add-user">
-          <input type="text" id="newHelppiId" class="man-addinput" placeholder="helppiXX ou só número"
-                 onkeydown="if(event.key==='Enter')addKnownUser()">
+          <input type="text" id="newHelppiId" class="man-addinput" placeholder="helppiXX ou só número" onkeydown="if(event.key==='Enter')addKnownUser()">
           <button class="btn btn-primary btn-sm" onclick="addKnownUser()" style="width:100%;padding:7px">+ Adicionar helppi</button>
           <button class="man-bulk-toggle" id="btnBulkToggle" onclick="toggleBulkAdd()" style="width:100%">📋 Colar lista (vários de uma vez)</button>
           <div class="man-bulk-panel" id="bulkAddPanel">
-            <textarea id="bulkAddText" class="man-bulk-textarea" placeholder="helppi01&#10;helppi02&#10;helppi03"></textarea>
+            <textarea id="bulkAddText" class="man-bulk-textarea" placeholder="helppi01
+helppi02
+helppi03"></textarea>
             <div class="man-bulk-hint">Um ID helppi por linha.</div>
             <button class="btn btn-primary btn-sm" onclick="processBulkAdd()" style="width:100%;padding:7px">⚡ Adicionar todos</button>
           </div>
@@ -720,12 +719,20 @@ td { padding:9px 14px;vertical-align:middle; }
             <input type="text" id="knownSearch" class="man-known-search" placeholder="Buscar helppi..." oninput="renderKnownUsers()">
           </div>
           <div class="man-known-stats">
-            <span id="knownStatsText"><b>0</b> cadastrados</span>
+            <span id="knownStatsText"><b>1</b> cadastrados</span>
           </div>
         </div>
         <div id="knownUsersList" class="man-known-list">
-          <div class="man-known-empty">Carregue um arquivo Excel<br>ou adicione usuários acima</div>
-        </div>
+    <div class="man-known-item" id="ki-2840669_helppi01">
+      <input type="checkbox" checked="" style="accent-color:var(--accent);flex-shrink:0" id="kc-2840669_helppi01">
+      <div class="man-known-avatar" style="background:#6366f1">#1</div>
+      <div class="man-known-body">
+        <span class="man-known-uid">helppi01</span>
+      </div>
+      <div class="man-known-actions">
+        <button class="man-known-del" onclick="removeKnownUser('2840669_helppi01')" title="Remover">✕</button>
+      </div>
+    </div></div>
       </div>
 
       <!-- ÁREA PRINCIPAL -->
@@ -745,8 +752,7 @@ td { padding:9px 14px;vertical-align:middle; }
         <!-- Quick fill -->
         <div id="manQuickFill" class="man-quickfill" style="display:none">
           <span style="font-size:12px;font-weight:700;color:var(--text2);white-space:nowrap">⚡ Aplicar nome a:</span>
-          <input type="text" id="quickFillName" class="man-topinput" style="flex:1;min-width:200px"
-                 placeholder="Nome do colaborador..." list="collabSuggestions">
+          <input type="text" id="quickFillName" class="man-topinput" style="flex:1;min-width:200px" placeholder="Nome do colaborador..." list="collabSuggestions">
           <datalist id="collabSuggestions"></datalist>
           <button class="man-qf-btn" onclick="applyQuickFill('selected')">✅ Selecionados</button>
           <button class="man-qf-btn" onclick="applyQuickFill('empty')">⬜ Vazios</button>
@@ -792,10 +798,10 @@ td { padding:9px 14px;vertical-align:middle; }
   </div><!-- /panel-manual -->
 
   <!-- ══ GITHUB / LINK ══ -->
-  <div class="panel" id="panel-github">
+  <div class="panel active" id="panel-github">
 
     <!-- STATUS BAR -->
-    <div id="ghStatusBar" style="display:none;margin-bottom:18px;padding:12px 18px;border-radius:12px;border:1px solid;display:none;align-items:center;gap:10px;font-size:13px"></div>
+    <div id="ghStatusBar" style="display: flex; align-items: center; gap: 10px; padding: 12px 18px; border-radius: 12px; border: 1px solid var(--accent); background: rgb(26, 37, 64); font-size: 13px; margin-bottom: 18px;">⏳ Preparando publicação...</div>
 
     <!-- BANCO DE DADOS SUPABASE (recomendado) -->
     <div style="background:linear-gradient(135deg,#152a24,#0f2018);border:1px solid var(--success);border-radius:14px;padding:20px;margin-bottom:20px">
@@ -804,7 +810,7 @@ td { padding:9px 14px;vertical-align:middle; }
         <div style="flex:1;min-width:220px">
           <div style="font-size:15px;font-weight:700;margin-bottom:3px">Banco de dados (Supabase) <span style="background:var(--success);color:#04140d;font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;margin-left:4px">RECOMENDADO</span></div>
           <div style="font-size:12px;color:var(--text2)">Seus lançamentos e cadastros ficam salvos num banco de verdade na nuvem — não somem ao atualizar a página, limpar o cache ou trocar de navegador/computador. Configure uma vez e pronto.</div>
-          <div id="sbSyncBadge" style="font-size:12px;font-weight:600;margin-top:8px;color:var(--text3)">☁️ Ainda não configurado</div>
+          <div id="sbSyncBadge" style="font-size: 12px; font-weight: 600; margin-top: 8px; color: var(--success);">✅ Sincronizado às 20:40:45</div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <button class="btn btn-outline" onclick="manualSbPull()" id="btnSbPull">⬇️ Puxar da nuvem</button>
@@ -883,7 +889,7 @@ create policy "helppi_anon_all" on helppi_dashboard
             <button class="btn btn-outline" onclick="testSbConnection()" id="btnSbTest">🔌 Testar conexão</button>
           </div>
 
-          <div id="sbConnStatus" style="font-size:12px;color:var(--text3)">Preencha os campos acima para começar.</div>
+          <div id="sbConnStatus" style="font-size: 12px; color: var(--success);">✅ Dados salvos no banco às 20:40:45.</div>
         </div>
       </div>
     </div>
@@ -932,7 +938,7 @@ create policy "helppi_anon_all" on helppi_dashboard
           <div class="gh-step-body">
             <div class="gh-step-title">Gerar Token de Acesso</div>
             <div class="gh-step-desc">Acesse <a href="https://github.com/settings/tokens/new" target="_blank" class="gh-link">Settings → Tokens</a>. Em <em>Note</em> escreva <code>helppi</code>, em <em>Expiration</em> escolha <strong>No expiration</strong>, marque o escopo <strong>repo</strong> e clique em <em>Generate token</em>. <strong>Copie o token gerado</strong> (ele só aparece uma vez).</div>
-            <a href="https://github.com/settings/tokens/new?description=helppi&scopes=repo" target="_blank" class="gh-btn-step">Gerar token →</a>
+            <a href="https://github.com/settings/tokens/new?description=helppi&amp;scopes=repo" target="_blank" class="gh-btn-step">Gerar token →</a>
           </div>
         </div>
 
@@ -969,23 +975,23 @@ create policy "helppi_anon_all" on helppi_dashboard
         <div>
           <label class="gh-label">Token de acesso <span style="color:var(--text3);font-size:10px">(guardado só no seu navegador)</span></label>
           <div style="position:relative">
-            <input class="gh-input" id="ghToken" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" oninput="saveGhConfig()" style="padding-right:36px">
-            <button onclick="toggleTokenVis()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px" id="tokenEye">👁</button>
+            <input class="gh-input" id="ghToken" type="text" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" oninput="saveGhConfig()" style="padding-right:36px">
+            <button onclick="toggleTokenVis()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px" id="tokenEye">🙈</button>
           </div>
         </div>
 
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <button class="btn btn-outline" onclick="testGhConnection()" id="btnTest">🔌 Testar conexão</button>
-          <button class="btn btn-primary" onclick="publishToGh()" id="btnPublish">🚀 Publicar dashboard</button>
+          <button class="btn btn-primary" onclick="publishToGh()" id="btnPublish" disabled=""><span class="gh-spin">⏳</span> Publicando...</button>
         </div>
 
-        <div id="ghConnStatus" style="font-size:12px;color:var(--text3)">Preencha os campos acima para começar.</div>
+        <div id="ghConnStatus" style="font-size: 12px; color: var(--success);">✅ Conectado! Repositório: "digital-kpis/helppi-dashboard" · 🌐 Público</div>
 
         <!-- LINK GERADO -->
-        <div id="ghLinkBox" style="display:none;background:var(--surface2);border:1px solid var(--success);border-radius:10px;padding:14px">
+        <div id="ghLinkBox" style="display: block; background: var(--surface2); border: 1px solid var(--success); border-radius: 10px; padding: 14px;">
           <div style="font-size:11px;color:var(--success);font-weight:700;margin-bottom:6px">✅ SEU LINK DE ACESSO</div>
           <div style="display:flex;align-items:center;gap:8px">
-            <a id="ghLinkUrl" href="#" target="_blank" style="color:#93c5fd;font-size:13px;word-break:break-all;flex:1"></a>
+            <a id="ghLinkUrl" href="https://digital-kpis.github.io/helppi-dashboard/" target="_blank" style="color:#93c5fd;font-size:13px;word-break:break-all;flex:1">https://digital-kpis.github.io/helppi-dashboard/</a>
             <button onclick="copyLink()" style="background:var(--surface3,#2d3f55);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;white-space:nowrap">📋 Copiar</button>
           </div>
           <div style="font-size:11px;color:var(--text3);margin-top:8px">Qualquer pessoa com este link pode acessar o dashboard com todos os dados — sem precisar de conta.</div>
@@ -1025,7 +1031,7 @@ create policy "helppi_anon_all" on helppi_dashboard
     </div>
   </div>
 </div>
-<div class="toast" id="toast"></div>
+<div class="toast success" id="toast">☁️ Dados salvos no Supabase!</div>
 
 <script>
 // ══════════════════════════════════════════════
@@ -2606,5 +2612,6 @@ function renderPubHistory(){
     </div>`).join('');
 }
 </script>
-</body>
-</html>
+
+
+</body></html>
